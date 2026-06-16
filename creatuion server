@@ -1,0 +1,40 @@
+1. Créer le dossier projet
+2. Créer l’arborescence du projet
+evaluation-sport/
+│
+├── api/
+│   └── src/
+│
+└── front/
+3. Initialiser NodeJS :npm init -y
+4. Installer TypeScript :npm install -D typescript
+5. Générer la configuration TypeScript :npx tsc --init
+6. Modifier le fichier tsconfig.json
+7. Installer Fastify :npm install fastify
+8. Installer SQLite + BetterSQLite3:npm install better-sqlite3
+9. Installer les types TypeScript:npm install -D @types/better-sqlite3
+10.10. Créer le premier fichier TypeScript :dans src créer index.ts puis mettre // Importation de Fastify:On importe la librairie Fastify.
+import Fastify from "fastify";
+
+// Création du serveur:On crée notre serveur Web.
+const fastify = Fastify();
+
+
+// Route de test
+fastify.get("/", (request, reply) => {
+
+    // Message envoyé au navigateur
+    reply.send("Serveur sport actif !");
+});
+
+
+// Démarrage serveur
+fastify.listen({
+    port : 8080
+})
+
+11. Compiler le TypeScript:npx tsc  ca crée dist/ avec index.js
+12. Lancer le serveur:node dist/index.js
+13. Tester
+
+Dans le navigateur :http://localhost:8080
