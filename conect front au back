@@ -1,0 +1,71 @@
+connecter le frontend au backend avec fetch()
+
+Ajouter l’import
+dans api  npm install @fastify/cors
+En haut de index.ts :import cors from "@fastify/cors";
+Ajouter cette ligne après :const fastify = Fastify();   // Autorise le frontend à appeler l'API
+fastify.register(cors);
+
+Compiler npx tsc node dist/index.js
+
+
+Connecter le bouton -Dans script.js,
+// Bouton création compte
+const registerButton =
+    document.querySelector(
+        "#register-button"
+    );
+
+
+// Event click
+registerButton.addEventListener(
+    "click",
+    async () =>
+    {
+
+        // Récupération login
+        const login =
+            document.querySelector(
+                "#register-login"
+            ).value;
+
+
+        // Récupération password
+        const password =
+            document.querySelector(
+                "#register-password"
+            ).value;
+
+
+        // Appel API
+        const response =
+            await fetch(
+                "http://localhost:8080/register",
+                {
+                    method : "POST",
+
+                    headers :
+                    {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body : JSON.stringify({
+                        login : login,
+                        password : password
+                    })
+                }
+            );
+
+
+        // Récupération réponse JSON
+        const data =
+            await response.json();
+
+
+        // Affichage message
+        alert(data.message);
+
+    }
+);
+
