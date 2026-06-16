@@ -1,0 +1,131 @@
+Préparer le frontend
+dans front/ créer les fichiers index.html style.css script.js
+
+
+1. Le HTML de base
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sport App</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Application Sport</h1>
+
+
+    <!-- Création compte -->
+    <section>
+
+        <h2>Créer un compte</h2>
+
+        <input
+            type="text"
+            id="register-login"
+            placeholder="Login"
+        >
+
+        <input
+            type="password"
+            id="register-password"
+            placeholder="Password"
+        >
+
+        <button id="register-button">
+            Créer compte
+        </button>
+
+    </section>
+
+
+    <!-- Début / fin séance -->
+    <section>
+
+        <h2>Gérer séance</h2>
+
+        <input
+            type="text"
+            id="session-login"
+            placeholder="Login"
+        >
+
+        <input
+            type="password"
+            id="session-password"
+            placeholder="Password"
+        >
+
+        <button id="start-button">
+            Début séance
+        </button>
+
+        <button id="end-button">
+            Fin séance
+        </button>
+
+    </section>
+
+
+    <!-- Historique -->
+    <section>
+
+        <h2>Historique</h2>
+
+        <input
+            type="text"
+            id="history-login"
+            placeholder="Login"
+        >
+
+        <input
+            type="password"
+            id="history-password"
+            placeholder="Password"
+        >
+
+        <button id="history-button">
+            Voir historique
+        </button>
+
+        <div id="history-result"></div>
+
+    </section>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+2. Petit CSS 
+body
+{
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+
+section
+{
+    border: 1px solid gray;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+input
+{
+    display: block;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+button
+{
+    margin-right: 10px;
+    padding: 10px;
+}
+
+3. Lancer le frontend Installe Live Server
+
