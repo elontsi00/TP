@@ -1,0 +1,60 @@
+API création de compte
+1. Installer la librairie de hash: npm install bcryptjs
+2. Ajouter l’import bcrypt :En haut de index.ts, ajoute :import bcrypt from "bcryptjs";
+3. Ajouter la route register Juste avant le fastify.listen():
+// Route création compte
+fastify.post("/register", (request, reply) => {
+
+    // Récupération données envoyées
+    const body = request.body as any;
+
+
+    // Vérifie si login existe déjà
+    const existingUser = database
+        .prepare(`
+            SELECT *
+            FROM users
+            WHERE login = ?
+        `)
+        .get(body.login);
+
+
+    // Si utilisateur déjà existant
+    if(existingUser)
+    {
+        reply.status(400).send({
+            message : "Login déjà utilisé"
+        });
+
+        return;
+    }
+
+
+    // Hash du mot de passe
+    const hashedPassword = bcrypt.hashSync(
+        body.password,
+        10
+    );
+
+
+    // Insertion utilisateur
+    database.prepare(`
+        INSERT INTO users(login, password)
+        VALUES (?, ?)
+    `)
+    .run(
+        body.login,
+        hashedPassword
+    );
+
+
+    // Réponse succès
+    reply.send({
+        message : "Compte créé avec succès"
+    });
+
+});
+4. Compiler npx tsc
+5. Relancer serveur :node dist/index.js
+6. Tester dans le navigateur : http://localhost:8080/register
+7. Tester correctement avec Thunder Client Extensions → Thunder Client
