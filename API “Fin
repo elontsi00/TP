@@ -1,0 +1,95 @@
+API “Fin
+
+Ajouter la route /end-session :
+// Route fin séance
+fastify.post("/end-session", (request, reply) => {
+
+    // Données envoyées
+    const body = request.body as any;
+
+
+    // Recherche utilisateur
+    const user = database
+        .prepare(`
+            SELECT *
+            FROM users
+            WHERE login = ?
+        `)
+        .get(body.login) as any;
+
+
+    // Vérifie utilisateur existe
+    if(!user)
+    {
+        reply.status(404).send({
+            message : "Utilisateur introuvable"
+        });
+
+        return;
+    }
+
+
+    // Vérifie mot de passe
+    const passwordValid = bcrypt.compareSync(
+        body.password,
+        user.password
+    );
+
+
+    // Mauvais password
+    if(!passwordValid)
+    {
+        reply.status(401).send({
+            message : "Mot de passe incorrect"
+        });
+
+        return;
+    }
+
+
+    // Recherche séance ouverte
+    const openedSession = database
+        .prepare(`
+            SELECT *
+            FROM sessions
+            WHERE user_id = ?
+            AND end_time IS NULL
+        `)
+        .get(user.id) as any;
+
+
+    // Aucune séance en cours
+    if(!openedSession)
+    {
+        reply.status(400).send({
+            message : "Aucune séance en cours"
+        });
+
+        return;
+    }
+
+
+    // Heure actuelle
+    const currentDate = new Date().toLocaleString();
+
+
+    // Mise à jour séance
+    database.prepare(`
+        UPDATE sessions
+        SET end_time = ?
+        WHERE id = ?
+    `)
+    .run(
+        currentDate,
+        openedSession.id
+    );
+
+
+    // Succès
+    reply.send({
+        message : "Séance terminée"
+    });
+
+});
+
+Compiler
