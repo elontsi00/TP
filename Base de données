@@ -1,0 +1,51 @@
+Base de données SQLite
+1. Créer un dossier database: dans api/ créer dossier database
+2. Modifier index.ts :// Importation de Fastify
+import Fastify from "fastify";
+
+// Importation de Better SQLite
+import Database from "better-sqlite3";
+
+
+// Création du serveur
+const fastify = Fastify();
+
+
+// Connexion à la base SQLite : Ça crée ou ouvre sport.db
+const database = new Database("./database/sport.db");
+
+
+// Création table utilisateurs
+database.prepare(`
+    CREATE TABLE IF NOT EXISTS users si elle nexiste pas
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        login TEXT UNIQUE,
+        password TEXT
+    )
+`).run();
+
+
+// Création table séances
+database.prepare(`
+    CREATE TABLE IF NOT EXISTS sessions
+    (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        start_time TEXT,
+        end_time TEXT
+    )
+`).run();
+
+
+// Route test
+fastify.get("/", (request, reply) => {
+
+    reply.send("Serveur sport actif !");
+});
+
+
+// Démarrage serveur
+fastify.listen({
+    port : 8080
+
